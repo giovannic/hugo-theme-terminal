@@ -4,11 +4,16 @@
   {{ $contentTypeName := cond $isntDefault (string $.Site.Params.contentTypeName) "posts" }}
 
   {{ $PageContext := . }}
-  {{ if .IsHome }}
-    {{ $PageContext = .Site }}
-  {{ end }}
   {{ $paginator := .Paginate (where $PageContext.RegularPages "Type" $contentTypeName) }}
 
+  <article>
+    <header>
+      <h1>{{ .Title }}</h1>
+    </header>
+    {{ .Content }}
+  </article>
+
+  {{ if not  .IsHome  }}
   {{ range $paginator.Pages }}
   <div class="post on-list">
     <h1 class="post-title">
@@ -56,5 +61,6 @@
   </div>
   {{ end }}
   {{ partial "pagination.html" . }}
+  {{ end }}
 </div>
 {{ end }}
